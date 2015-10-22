@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.Color;
 import java.util.Random;
-import java.aw
 
 /**
  * Class BoxBall - a graphical ball that observes the effect of gravity. The ball
@@ -34,6 +33,7 @@ public class BoxBall
     private double hVelocity;
     private double friction = .04;
     private boolean onTheGround = false;
+    private BoxDims theBoxDims;
     
     /**
      * Constructor for objects of class BouncingBall
