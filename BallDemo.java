@@ -16,7 +16,8 @@ public class BallDemo
     private Dimension canvasDims;
     private boolean hasBox = false;
     private BoxDims theDims;
-    private ArrayList<BoxBall> boxBalls= new ArrayList<BoxBall>();
+    private ArrayList<BoxBallGravity> boxBallGs= new ArrayList<BoxBallGravity>();
+    private final int boxOffset=30;
     
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
@@ -29,9 +30,10 @@ public class BallDemo
     /**
      * Simulate a bouncing ball placed into a box, accepts a quantity of balls to make
      */
-    public void boxBounce(int numBalls){
+    public void boxBounceGravity(int numBalls){
         this.hasBox = true;
-        this.theDims = new BoxDims(25,550,25,450);
+        this.theDims = new BoxDims(boxOffset,(int)myCanvas.getSize().getWidth()-boxOffset,
+                                   boxOffset,(int)myCanvas.getSize().getHeight()-boxOffset);
         
         myCanvas.setVisible(true);
         
@@ -42,14 +44,14 @@ public class BallDemo
         
         // Make the required number of balls
         for(int ballsMade = 0;ballsMade < numBalls; ballsMade++){
-            boxBalls.add(new BoxBall(10,30,this.theDims,myCanvas));
+            boxBallGs.add(new BoxBallGravity(10,30,this.theDims,myCanvas));
         }
         
         boolean finished =  false;
         while(!finished) {
             myCanvas.wait(50);           // small delay
             boolean areBallsMoving = false;
-            for(BoxBall ball : boxBalls){   //move each ball in the dynamic array
+            for(BoxBallGravity ball : boxBallGs){   //move each ball in the dynamic array
                 ball.move(); 
                 if(ball.hasSpeed())  // check to see if its stopped, update the status array
                     areBallsMoving = true;
@@ -61,7 +63,7 @@ public class BallDemo
             }
         }
         myCanvas.erase();
-        boxBalls = new ArrayList<BoxBall>();
+        boxBallGs = new ArrayList<BoxBallGravity>();
     }
     
     /**
@@ -70,10 +72,10 @@ public class BallDemo
      * balls move, this I don't think you can call this one, but eventually could be implemented.
      * 
      */
-    public void addBoxBall()
+    public void addBoxBallGravity()
     {
        if(this.hasBox){
-            boxBalls.add(new BoxBall(10,30,this.theDims,myCanvas));           
+            boxBallGs.add(new BoxBallGravity(10,30,this.theDims,myCanvas));           
        }else{
             System.out.println("Please call boxBounce() before using addBoxBall()");
        }
