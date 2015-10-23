@@ -83,6 +83,17 @@ public class Canvas
     }
 
     /**
+     * For box activites, draw the border, needed to prevent "chipping away" at the edges.
+     */
+    public void drawBox(BoxDims theDims)
+    {
+        this.drawLine(theDims.getXMin(), theDims.getYMin(), theDims.getXMax(), theDims.getYMin());
+        this.drawLine(theDims.getXMax(), theDims.getYMin(), theDims.getXMax(), theDims.getYMax());
+        this.drawLine(theDims.getXMax(), theDims.getYMax(), theDims.getXMin(), theDims.getYMax());
+        this.drawLine(theDims.getXMin(), theDims.getYMax(), theDims.getXMin(), theDims.getYMin());
+    }
+    
+    /**
      * Provide information on visibility of the Canvas.
      * @return  true if canvas is visible, false otherwise
      */

@@ -84,7 +84,7 @@ public class BoxBallGravity
     {
         // remove from canvas at the current position
         erase();
-            
+        this.canvas.drawBox(this.theBoxDims);    
         // compute new position
         ySpeed += GRAVITY;
         yPosition += ySpeed;

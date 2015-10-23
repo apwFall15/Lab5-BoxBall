@@ -17,7 +17,9 @@ public class BallDemo
     private boolean hasBox = false;
     private BoxDims theDims;
     private ArrayList<BoxBallGravity> boxBallGs= new ArrayList<BoxBallGravity>();
+    private ArrayList<BoxBall> boxBalls = new ArrayList<BoxBall>();
     private final int boxOffset=30;
+    private int pauseLength = 50; //how long to pause before redrawing/recalculating ball movement
     
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
@@ -28,6 +30,42 @@ public class BallDemo
     }
     
     /**
+     * Simulate a bouncing ball placed into a box, accepts a quantity of balls to make, with gravity!
+     * accepts a duration argument in seconds will will let the program run for that long
+     */
+    public void boxBounce(int numBalls, int duration){
+        this.hasBox = true;
+        this.theDims = new BoxDims(boxOffset,(int)myCanvas.getSize().getWidth()-boxOffset,
+                                   boxOffset,(int)myCanvas.getSize().getHeight()-boxOffset);
+        
+        myCanvas.setVisible(true);
+        myCanvas.drawBox(this.theDims);
+        // Make the required number of balls
+        for(int ballsMade = 0;ballsMade < numBalls; ballsMade++){
+            boxBalls.add(new BoxBall(10,30,this.theDims,myCanvas));
+        }
+        
+        boolean finished =  false;
+        duration *= 1000;  //convert seconds to miliseconds
+        while(!finished) {
+            myCanvas.wait(pauseLength);           // small delay
+              for(BoxBall ball : boxBalls){   //move each ball in the dynamic array
+                ball.move(boxBalls); 
+            }
+              
+            // this condition will never happen as we never retard their speed, instead have
+            // an animation duration
+            if(duration <= 0){
+                finished = true; // if all the balls are on the ground 
+            }
+            duration -= pauseLength;
+        }
+       
+        myCanvas.erase();
+        boxBalls = new ArrayList<BoxBall>();
+    }
+    
+     /**
      * Simulate a bouncing ball placed into a box, accepts a quantity of balls to make
      */
     public void boxBounceGravity(int numBalls){
@@ -36,12 +74,7 @@ public class BallDemo
                                    boxOffset,(int)myCanvas.getSize().getHeight()-boxOffset);
         
         myCanvas.setVisible(true);
-        
-        myCanvas.drawLine(theDims.getXMin(), theDims.getYMin(), theDims.getXMax(), theDims.getYMin());
-        myCanvas.drawLine(theDims.getXMax(), theDims.getYMin(), theDims.getXMax(), theDims.getYMax());
-        myCanvas.drawLine(theDims.getXMax(), theDims.getYMax(), theDims.getXMin(), theDims.getYMax());
-        myCanvas.drawLine(theDims.getXMin(), theDims.getYMax(), theDims.getXMin(), theDims.getYMin());
-        
+        myCanvas.drawBox(this.theDims);
         // Make the required number of balls
         for(int ballsMade = 0;ballsMade < numBalls; ballsMade++){
             boxBallGs.add(new BoxBallGravity(10,30,this.theDims,myCanvas));
@@ -49,7 +82,7 @@ public class BallDemo
         
         boolean finished =  false;
         while(!finished) {
-            myCanvas.wait(50);           // small delay
+            myCanvas.wait(pauseLength);           // small delay
             boolean areBallsMoving = false;
             for(BoxBallGravity ball : boxBallGs){   //move each ball in the dynamic array
                 ball.move(); 
@@ -57,15 +90,15 @@ public class BallDemo
                     areBallsMoving = true;
             }
               
-            // stop once all balls have no vertical velocity
+            // stop once all balls have no horizontal velocity
             if(!areBallsMoving){
-                finished = true; // if all the balls are on the ground 
+                finished = true; // if all the balls are on the ground and stopped
             }
         }
         myCanvas.erase();
         boxBallGs = new ArrayList<BoxBallGravity>();
     }
-    
+  
     /**
      * adds an additional ball to the box, boxBounce has to have be called first. This also
      * won't work yet because of how BoxBall is implemented; execution is halted while the original 
@@ -102,7 +135,7 @@ public class BallDemo
         // make them bounce
         boolean finished =  false;
         while(!finished) {
-            myCanvas.wait(50);           // small delay
+            myCanvas.wait(pauseLength);           // small delay
             ball.move();
             ball2.move();
             // stop once ball has travelled a certain distance on x axis
