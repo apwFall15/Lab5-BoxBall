@@ -19,7 +19,7 @@ public class BallDemo
     private ArrayList<BoxBallGravity> boxBallGs= new ArrayList<BoxBallGravity>();
     private ArrayList<BoxBall> boxBalls = new ArrayList<BoxBall>();
     private final int boxOffset=30;
-    private int pauseLength = 50; //how long to pause before redrawing/recalculating ball movement
+    private int pauseLength = 5; //how long to pause before redrawing/recalculating ball movement
     
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.

@@ -32,11 +32,9 @@ public class BoxBall
     /**
      * Constructor for objects of class BouncingBall
      *
-     * @param xPos  the horizontal coordinate of the ball
-     * @param yPos  the vertical coordinate of the ball
-     * @param ballDiameter  the diameter (in pixels) of the ball
-     * @param ballColor  the color of the ball
-     * @param groundPos  the position of the ground (where the wall will bounce)
+     * @param diameterMin  the minimum diameter for the ball
+     * @param diameterMax  the maximum diamter for the ball
+     * @param theBoxDims the dimensions for the arena the balls move in
      * @param drawingCanvas  the canvas to draw this ball on
      */
     public BoxBall(int diameterMin, int diameterMax, BoxDims theBoxDims, Canvas drawingCanvas)
@@ -79,6 +77,8 @@ public class BoxBall
 
     /**
      * Move this ball according to its position and speed and redraw.
+     * Check for collisions with the walls of the arena and if the ball has hit another ball
+     * @param theBalls is the arrow of otherballs, balldemo keeps this.
      **/
     public void move(ArrayList<BoxBall> theBalls)
     {
@@ -155,23 +155,29 @@ public class BoxBall
     
     /**
      * setters for velocity, so during ball collisions, they can move each other
+     * @param the new velocity to set to
      */
     public void setYVelocity(int yVelocity){
         this.yVelocity = yVelocity;
     }
     
-        public void setXVelocity(int xVelocity){
+    public void setXVelocity(int xVelocity){
         this.xVelocity = xVelocity;
     }
     
-    // return ball diameter
+
+    /**
+     * get the diameter of the ball for checking on collisions
+     */
     public int getDiameter()
     {
         return diameter;
     }
 
-    // return randomly generated ID, in an attempt to 
-    // allow balls to not have to calculate colliding with themselves
+    /**
+     * return randomly generated ID, in an attempt to 
+     * allow balls to not have to calculate colliding with themselves
+     */
     public float getID(){
         return this.ID;
     }

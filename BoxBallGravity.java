@@ -38,11 +38,9 @@ public class BoxBallGravity
     /**
      * Constructor for objects of class BouncingBall
      *
-     * @param xPos  the horizontal coordinate of the ball
-     * @param yPos  the vertical coordinate of the ball
-     * @param ballDiameter  the diameter (in pixels) of the ball
-     * @param ballColor  the color of the ball
-     * @param groundPos  the position of the ground (where the wall will bounce)
+     * @param diameterMin the minimum diameter the ball can be
+     * @param diameterMax the maximum diamter the ball can be
+     * @param theBoxDims the outter boundaries of the arena the ball moves ince)
      * @param drawingCanvas  the canvas to draw this ball on
      */
     public BoxBallGravity(int diameterMin, int diameterMax, BoxDims theBoxDims, Canvas drawingCanvas)
@@ -79,6 +77,7 @@ public class BoxBallGravity
 
     /**
      * Move this ball according to its position and speed and redraw.
+     * checks for wall collisions
      **/
     public void move()
     {
